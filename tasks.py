@@ -4,6 +4,10 @@ from invoke import task, run
 REQUIREMENTS_DIR = './requirements'
 APPS_DIR = './apps'
 
+
+"""
+Starts a new Django App, placing it in the apps dir.
+"""
 @task
 def startapp(ctx, name):
     if not name:
@@ -17,6 +21,10 @@ def startapp(ctx, name):
     print('App \'{0}\' created!'.format(name))
 
 
+"""
+Installs a package using PIP, and adds the dependency to the specified
+requirements file.
+"""
 @task
 def install(ctx, package, env):
     envs = {

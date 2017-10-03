@@ -8,12 +8,12 @@ class ChargeAdmin(admin.ModelAdmin):
         'created',
         'charge_date',
         'value',
+        'title',
         'is_paid',
-        'period',
         'is_active',
     )
 
-    list_filter = ('is_paid', 'is_active', 'charge_date', 'value', 'title',)
+    list_filter = ('is_paid', 'charge_date',)
 
 
 admin.site.register(Charge, ChargeAdmin)

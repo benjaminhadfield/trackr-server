@@ -114,6 +114,9 @@ ENV/
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 
+# VSCode
+.vscode
+
 # Gradle:
 .idea/**/gradle.xml
 .idea/**/libraries

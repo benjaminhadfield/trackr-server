@@ -14,10 +14,28 @@ Including another URLconf
     2. Import the include() function: from django.conf.urls import url, include
     3. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
+
+from rest_framework import routers
+from rest_framework.authtoken import views
+
+from apps.charge.views import ChargeViewSet
+
+
+router = routers.SimpleRouter()
+router.register(r'charges', ChargeViewSet, base_name='charge')
+
+auth = [
+    url(r'^token/?$', views.obtain_auth_token),
+]
+
+api_routes = [
+    url(r'^auth/', include(auth)),
+] + router.urls
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    # url(r'api/v1/', ),
+    url(r'^api/v1/', include(api_routes))
 ]

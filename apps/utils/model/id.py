@@ -13,6 +13,6 @@ def generate_model_prefixed_id(model=None, length=32):
     """
     if not model:
         raise ValueError('Model not specified')
-    name = model.__class__.__name__.lower()[:4]
-    uid = ''.join(choice(ascii_letters + digits) for _ in range(length - 5))
+    name = model.__class__.__name__.lower()[:2]
+    uid = ''.join(choice(ascii_letters + digits) for _ in range(length - 3))
     return '{0}_{1}'.format(name, uid)

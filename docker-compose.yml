@@ -3,7 +3,7 @@ version: '3'
 services:
   db:
     image: postgres
-  web:
+  server:
     build:
         context: .
         dockerfile: ./compose/local/Dockerfile

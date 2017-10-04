@@ -13,15 +13,32 @@ from apps.standing_order.models import StandingOrder
 
 
 class Charge(TimeStampedModel, PublicIdModel):
-    # Detail fields.
-    value = models.PositiveIntegerField()  # Amount in pence.
-    charge_date = models.DateField(default=date.today)  # Date to send charge.
+    # User that created the charge.
+    created_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='charge_requests'
+    )
+    # Charge amount in pence.
+    value = models.PositiveIntegerField()
+    # Date to send charge.
+    charge_date = models.DateField(default=date.today)
+    # Boolean denoting whether the charge has been paid.
     is_paid = models.BooleanField(default=False)
+    # Relation to the standing order this charge was created from.
     standing_order = models.ForeignKey(
-        StandingOrder, on_delete=models.CASCADE, null=True, blank=True)
-    split_with = models.ManyToManyField(User)
-    # Meta fields.
+        StandingOrder,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
+    # Users to split the charge with.
+    split_with = models.ManyToManyField(User, related_name='charges')
+    # Title of the charge.
     title = models.CharField(max_length=255, blank=True)
+    # Any additional details.
     message = models.TextField(blank=True)
 
     def is_active(self):

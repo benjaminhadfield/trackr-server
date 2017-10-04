@@ -46,13 +46,20 @@ def install(ctx, package, env):
         return 'Please add an environment to add the package to.' \
                'Valid environments are {}'.format(envs.values())
 
+    # If this fails then the function exits.
+    run('pip install {}'.format(package))
 
-    install_cmd = 'pip install {}'.format(package)
-    requirements_cmd = 'echo `pip freeze | grep {0}` >> {1}/{2}.txt' \
-        .format(package, REQUIREMENTS_DIR, env)
+    # Check if the requirement is already listed in the file.
+    is_listed = run(
+        'grep {0} requirements/{1}.txt'.format(package, env), warn=True)
+    if not len(is_listed.stdout) == 0:
+        # Add to requirements file.
+        requirements_cmd = 'echo `pip freeze | grep {0}` >> {1}/{2}.txt' \
+            .format(package, REQUIREMENTS_DIR, env)
+        run(requirements_cmd)
+        print('Requirement \'{0}\' installed and added '
+              'to \'{1}\' requirements!'.format(package, env))
+    else:
+        print('Requirement is already listed in {0}.txt.'.format(env))
 
-    run(install_cmd)
-    run(requirements_cmd)
-
-    print('Requirement \'{0}\' installed and added to \'{1}\' requirements!'
-          .format(package, env))
+    print('Install complete!')

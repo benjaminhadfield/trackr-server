@@ -164,5 +164,5 @@ REST_FRAMEWORK = {
 # be requested from different domains.
 
 CORS_ORIGIN_WHITELIST = [
-    'trackr-server.herokuapp.com',
+    'client-trackr.herokuapp.com',
 ]

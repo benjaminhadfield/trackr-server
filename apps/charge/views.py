@@ -16,3 +16,6 @@ class ChargeViewSet(viewsets.ModelViewSet):
             Q(created_by=self.request.user) |
             Q(split_with__in=[self.request.user])
         ).order_by('-charge_date', '-created')
+
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user)

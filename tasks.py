@@ -52,7 +52,7 @@ def install(ctx, package, env):
     # Check if the requirement is already listed in the file.
     is_listed = run(
         'grep {0} requirements/{1}.txt'.format(package, env), warn=True)
-    if not len(is_listed.stdout) == 0:
+    if len(is_listed.stdout) == 0:
         # Add to requirements file.
         requirements_cmd = 'echo `pip freeze | grep {0}` >> {1}/{2}.txt' \
             .format(package, REQUIREMENTS_DIR, env)

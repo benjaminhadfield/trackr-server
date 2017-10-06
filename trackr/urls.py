@@ -20,10 +20,12 @@ from django.contrib import admin
 from rest_framework import routers
 from rest_framework.authtoken import views
 
+from apps.user.views import UserViewsets
 from apps.charge.views import ChargeViewSet
 
 
 router = routers.SimpleRouter()
+router.register(r'users', UserViewsets)
 router.register(r'charges', ChargeViewSet, base_name='charge')
 
 auth = [

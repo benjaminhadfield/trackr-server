@@ -21,12 +21,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'eu6+)@w2dzqj^=r=kh4vgt(5jz2ny0r5i@u7zyzya%jr5(9^_)'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    host.strip() for host in os.environ.get('ALLOWED_HOSTS', '').split(',')
+    if host
+]
 
 
 # Application definition
@@ -39,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
 
@@ -48,6 +52,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -144,3 +150,12 @@ REST_FRAMEWORK = {
     )
 }
 
+
+# CORS Headers
+
+# This adds the appropriate CORS headers to our responses so the API can
+# be requested from different domains.
+
+CORS_ORIGIN_WHITELIST = [
+    'trackr-server.herokuapp.com',
+]

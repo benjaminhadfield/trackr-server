@@ -40,7 +40,7 @@ def install(ctx, package, env):
         if env == 'l':
             env = envs['local']
         if env == 'p':
-            env = envs['production']
+            env = envs['prod']
 
     if env not in envs.values():
         return 'Please add an environment to add the package to.' \

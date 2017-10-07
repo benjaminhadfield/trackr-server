@@ -1,4 +1,4 @@
-FROM python:3-alpine
+FROM python:3
 
 ENV PYTHONUNBUFFERED 1
 
@@ -6,4 +6,4 @@ RUN mkdir /code
 WORKDIR /code
 
 COPY . /code/
-RUN pip install -r requirements/prod.txt
+RUN pip3 install -r requirements/prod.txt

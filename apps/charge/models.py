@@ -44,5 +44,9 @@ class Charge(TimeStampedModel, PublicIdModel):
         now = timezone.now()
         return self.charge_date <= now
 
+    def mark_as_paid(self):
+        self.is_paid = True
+        self.save()
+
     def __str__(self):
         return 'Charge {}'.format(self.created)

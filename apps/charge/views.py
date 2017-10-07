@@ -1,6 +1,9 @@
 from django.db.models import Q
 
 from rest_framework import viewsets
+from rest_framework.response import Response
+from rest_framework.decorators import detail_route
+from rest_framework.exceptions import PermissionDenied
 
 from .models import Charge
 from .serializers import ChargeSerializer
@@ -19,3 +22,16 @@ class ChargeViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
+
+    @detail_route()
+    def paid(self, request, pk=None):
+        charge = self.get_object()
+
+        # Only charge owners can mark as paid.
+        if charge.created_by != request.user:
+            raise PermissionDenied()
+
+        charge.mark_as_paid()
+
+        serializer = ChargeSerializer(charge)
+        return Response(serializer.data)

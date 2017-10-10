@@ -164,5 +164,8 @@ REST_FRAMEWORK = {
 # be requested from different domains.
 
 CORS_ORIGIN_WHITELIST = [
-    'client-trackr.herokuapp.com',
+    host.strip()
+    for host
+    in os.environ.get('CORS_ORIGIN_WHITELIST', '').split(',')
+    if host
 ]
